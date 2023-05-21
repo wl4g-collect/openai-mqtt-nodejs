@@ -1,7 +1,10 @@
+// blogs: https://mp.weixin.qq.com/s/HuhTvBS62i2pg6XMGqRD2w
 // Add this line at the beginning of your script
 require('dotenv').config();
 const axios = require("axios");
 const mqtt = require("mqtt");
+//const socks = require('socksv5');
+const HttpsProxyAgent = require('https-proxy-agent');
 
 // Add your OpenAI API key to your environment variables in .env
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -14,6 +17,9 @@ const http = axios.create({
     "Content-Type": "application/json",
     Authorization: `Bearer ${OPENAI_API_KEY}`,
   },
+  proxy: true,
+  // https://github.com/axios/axios/issues/636
+  httpsAgent: new HttpsProxyAgent('http://127.0.0.1:8118')
 });
 
 const host = "127.0.0.1";
@@ -57,11 +63,13 @@ client.on("message", (topic, payload) => {
 
 const genText = async (userId) => {
   try {
+    console.log("Request chatgpt for", userId);
     const { data } = await http.post("/completions", {
       model: "gpt-3.5-turbo",
       messages: messages[userId],
       temperature: 0.7,
     });
+    console.log("Response chatgpt", data);
     if (data.choices && data.choices.length > 0) {
       const { content } = data.choices[0].message;
       console.log(content);
