@@ -1,0 +1,36 @@
+{
+  // 使用 IntelliSense 了解相关属性, 请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Start with Local Debug",
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": [
+        // "--max-http-header-size",
+        // "163840"
+      ],
+      "program": "${workspaceFolder}/index.js",
+      "env": {
+        "OPENAI_API_KEY": "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",
+      },
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "args": [
+        // "-w",
+        // "server.js",
+        // "-w",
+        // "./server"
+        "index.js"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug on both side",
+      "configurations": []
+    }
+  ]
+}
